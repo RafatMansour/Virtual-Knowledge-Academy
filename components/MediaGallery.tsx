@@ -41,8 +41,6 @@ export default function MediaGallery({
   const viewerContainerRef = useRef<HTMLDivElement | null>(null);
   const items = useMemo(() => (Array.isArray(media) ? media.filter((m) => m && m.url) : []), [media]);
 
-  if (!items.length) return null;
-
   function openViewerAt(index: number) {
     setCurrentIndex(index);
     setViewerOpen(true);
@@ -89,7 +87,9 @@ export default function MediaGallery({
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [viewerOpen, items.length]);
+  }, [viewerOpen, items.length, showNext, showPrev]);
+
+  if (!items.length) return null;
 
   return (
     <>

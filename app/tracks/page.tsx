@@ -29,11 +29,14 @@ async function fetchTracksWithLevels(): Promise<Track[]> {
       description: lvl.description,
       order_num: lvl.order_num,
       media: Array.isArray(lvl.media)
-        ? (lvl.media as unknown[]).map((m: any): Media => ({
-            url: String(m?.url || ''),
-            type: m?.type ? String(m.type) : undefined,
-            title: m?.title ? String(m.title) : undefined,
-          }))
+        ? (lvl.media as unknown[]).map((m: unknown): Media => {
+            const mediaObj = m as { url?: string; type?: string; title?: string };
+            return {
+              url: String(mediaObj?.url || ''),
+              type: mediaObj?.type ? String(mediaObj.type) : undefined,
+              title: mediaObj?.title ? String(mediaObj.title) : undefined,
+            };
+          })
         : null,
     }));
     normalizedLevels.sort((a, b) => (a.order_num ?? Number.MAX_SAFE_INTEGER) - (b.order_num ?? Number.MAX_SAFE_INTEGER));

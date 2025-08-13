@@ -137,7 +137,7 @@ const Signup: React.FC = () => {
 
       setSuccess('تم إنشاء الحساب بنجاح!');
       router.push('/dashboard');
-    } catch (err) {
+    } catch {
       setError('تعذر الاتصال بالخادم. حاول مرة أخرى.');
     } finally {
       setLoading(false);
