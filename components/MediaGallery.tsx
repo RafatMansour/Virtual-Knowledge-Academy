@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 type MediaItem = {
@@ -50,13 +50,13 @@ export default function MediaGallery({
     setViewerOpen(false);
   }
 
-  function showPrev() {
+  const showPrev = useCallback(() => {
     setCurrentIndex((i) => (i - 1 + items.length) % items.length);
-  }
+  }, [items.length]);
 
-  function showNext() {
+  const showNext = useCallback(() => {
     setCurrentIndex((i) => (i + 1) % items.length);
-  }
+  }, [items.length]);
 
   async function toggleBrowserFullscreen() {
     try {
