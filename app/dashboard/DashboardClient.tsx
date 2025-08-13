@@ -3,10 +3,15 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+type Course = {
+  id: string;
+  title: string;
+};
+
 type Enrollment = {
   id: string;
   course_id: string;
-  courses?: { title?: string };
+  courses?: Course;
 };
 
 type Progress = {
@@ -125,26 +130,26 @@ export default function DashboardClient() {
             <div className="bg-white dark:bg-[#443266] rounded-2xl p-8 shadow-sm border border-slate-200 dark:border-[#2c2144]">
               <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-6">الدورات المسجلة</h2>
               <div className="space-y-4">
-                {enrollments?.map((enrollment) => (
-                  <div key={enrollment.id} className="border border-slate-200 dark:border-[#2c2144] rounded-xl p-4 hover:shadow-md transition-shadow duration-300">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-semibold text-slate-800 dark:text-white">
-                          {(enrollment.courses as any)?.title || `دورة ${enrollment.course_id}`}
-                        </h3>
-                        <p className="text-sm text-slate-600 dark:text-slate-200 mt-1">
-                          انضم في {new Date().toLocaleDateString('ar-SA')}
-                        </p>
-                      </div>
-                      <Link 
-                        href={`/courses/${enrollment.course_id}`}
-                        className="bg-[#aa7fff] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#8469d4] transition-colors duration-300"
-                      >
-                        متابعة التعلم
-                      </Link>
-                    </div>
-                  </div>
-                ))}
+              {enrollments?.map((enrollment) => (
+        <div key={enrollment.id} className="border border-slate-200 dark:border-[#2c2144] rounded-xl p-4 hover:shadow-md transition-shadow duration-300">
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="font-semibold text-slate-800 dark:text-white">
+                {enrollment.courses?.title || `دورة ${enrollment.course_id}`}
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-200 mt-1">
+                انضم في {new Date().toLocaleDateString('ar-SA')}
+              </p>
+            </div>
+            <Link 
+              href={`/courses/${enrollment.course_id}`}
+              className="bg-[#aa7fff] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#8469d4] transition-colors duration-300"
+            >
+              متابعة التعلم
+            </Link>
+          </div>
+        </div>
+      ))}
                 {!enrollments?.length && (
                   <div className="text-center py-8">
                     <div className="w-16 h-16 bg-slate-100 dark:bg-[#382a55] rounded-full flex items-center justify-center mx-auto mb-4">
